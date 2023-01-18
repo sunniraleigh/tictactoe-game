@@ -31,7 +31,7 @@ def player_turn(player, if_comp):
       player_col = random.randint(3)
     
     if check_open_slot(player_row, player_col):
-      update_board(player, player_row, player_col)
+      update_board(board, player, player_row, player_col)
       active_turn = False
 
 # check for open slot
@@ -40,6 +40,10 @@ def check_open_slot(player_row, player_col):
 
 # check for win
 def check_win(player):
+  # how is a win determined
+  # 3 horizontal solutions
+  # 3 vertical solutions
+  # 2 diagonal solutions
 
 # check for draw
 # iterate over board and see if there are any 0's left
@@ -51,8 +55,9 @@ def check_draw():
   return True
 
 # update board
-def update_board(player, player_row, player_col):
+def update_board(board, player, player_row, player_col):
   board[player_row, player_col] = player
+  return board
 
 # GAMEPLAY
 # run game
@@ -73,7 +78,7 @@ while(running == True):
     else:
       # player 2 turn
       player_turn(2, False)
-      # check for player 2 win
-      running != check_win(2)
+    # check for player 2 win
+    running != check_win(2)
   # check for draw
     running != check_draw()
