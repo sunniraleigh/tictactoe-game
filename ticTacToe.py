@@ -49,7 +49,15 @@ def check_open_slot(player_row, player_col):
   return board[player_row, player_col] == 0
 
 # check for win
+
 # check for draw
+# iterate over board and see if there are any 0's left
+def check_draw():
+  for row in board:
+    for col in row:
+      if col == 0:
+        return False
+  return True
 
 # update board
 def update_board(player, player_row, player_col):
