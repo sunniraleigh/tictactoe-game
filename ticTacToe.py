@@ -3,7 +3,13 @@
 # To play: run `python3 ticTacToe.py`
 
 # define or clear board
+board = [[0,0,0], [0,0,0], [0,0,0]] # 0 is empty slot
 # update list of empty slots
+empty_slots = [] # initialize list
+for row in board:
+  for col in row:
+    if col == 0:
+      empty_slots.append([row,col])
 # determine if there is 1 player or 2 players
 
 # GAMEPLAY
