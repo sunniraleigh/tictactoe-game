@@ -11,11 +11,15 @@ for row in board:
     if col == 0:
       empty_slots.append([row,col])
 # determine if there is 1 player or 2 players
+num_of_players = input("Please indicate how many players there are (1 or 2):")
 
 # GAMEPLAY
 
-# ask if ready to play
 # run game
+print("Starting game with" + num_of_players + "players")
+running = True
+
+while(running == True):
 
   # player 1 turn
   # check for player 1 win
@@ -26,6 +30,15 @@ for row in board:
 
 # GAMEPLAY FUNCTIONS
 # player turn, input player, no output, updates board
+def player_turn(player):
+  # ask player to enter row and col values
+  player_row = input("Select a slot row (0-3):")
+  player_col = input("Select a slot column (0-3):")
+
+  update_board(player, player_row, player_col)
+
+  return
+
 # check for open slot
 # check for win
 # check for draw
