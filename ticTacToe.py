@@ -45,8 +45,12 @@ def player_turn(player):
   return
 
 # check for open slot
+def check_open_slot(player_row, player_col):
+  return board[player_row, player_col] == 0
+
 # check for win
 # check for draw
+
 # update board
 def update_board(player, player_row, player_col):
   board[player_row, player_col] = player
