@@ -4,20 +4,9 @@
 
 import random
 
-# define or clear board
-board = [[0,0,0], [0,0,0], [0,0,0]] # 0 is empty slot
-# # update list of empty slots
-# empty_slots = [] # initialize list
-# for row in board:
-#   for col in row:
-#     if col == 0:
-#       empty_slots.append([row,col])
-# determine if there is 1 player or 2 players
-num_of_players = input("Please indicate how many players there are (1 or 2):")
-
 # GAMEPLAY FUNCTIONS
 # player turn, input player, no output, updates board
-def player_turn(player, if_comp):
+def player_turn(board, player, if_comp):
   active_turn = True
 
   while(active_turn == True):
@@ -35,7 +24,7 @@ def player_turn(player, if_comp):
       active_turn = False
 
 # check for open slot
-def check_open_slot(player_row, player_col):
+def check_open_slot(board, player_row, player_col):
   return True if board[player_row][player_col] == 0 else False
 
 # check for win
@@ -79,18 +68,30 @@ def check_draw(board):
 # update board
 def update_board(board, player, player_row, player_col):
   board[player_row][player_col] = player
-  return board
+  # return board
 
 # print board
 def print_board(board):
   for row in board:
     for col in row:
-      print(col)
+      print(col, end=" ")
     print()
 
 # GAMEPLAY
+
+# define or clear board
+board = [[0,0,0], [0,0,0], [0,0,0]] # 0 is empty slot
+# # update list of empty slots
+# empty_slots = [] # initialize list
+# for row in board:
+#   for col in row:
+#     if col == 0:
+#       empty_slots.append([row,col])
+# determine if there is 1 player or 2 players
+num_of_players = input("Please indicate how many players there are (1 or 2):")
+
 # run game
-print("Starting game with" + num_of_players + "players")
+print("Starting game with " + num_of_players + " players")
 running = True
 
 while(running == True):
@@ -112,3 +113,4 @@ while(running == True):
     running != check_win(2, board)
   # check for draw
     running != check_draw(board)
+    
