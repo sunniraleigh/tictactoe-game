@@ -38,13 +38,14 @@ def check_win(player, board):
       if win:
         return win
 
-  # check diagonal
+  # check diagonals
 
   # diagonal across and down
   win = True
   for i in range(n):
     if board[i][i] != player:
       win = False
+      break
 
   if win:
     return win
@@ -54,10 +55,11 @@ def check_win(player, board):
   for i in range(n):
     if board[i][n - 1 - i] != player:
       win = False
+      break
 
   if win:
     return win
-    
+
   return False
 
   # same come below as a check draw?
@@ -67,32 +69,6 @@ def check_win(player, board):
   #       return False
 
   # return True
-
-  # iterate through rows and determine if all values are the same and not 0
-  # this is not ideal ripp
-  # for row in board:
-  #   # check for horizontal win
-  #   for col in row:
-  #     if board[row][col] == player:
-  #       check_next_row = True
-  #       # check if there's another slot, dependent on size of board?
-  #       if col == 2:
-  #         return True # reached the end of a full row therefore a win
-  #     else:
-  #       check_next_row = False
-  #     if check_next_row == False:
-  #       break
-    
-    # check for vertical win
-    # for col in row:
-    #   if board[row][col] == player:
-    #     check_next_col = True
-
-
-  # how is a win determined
-  # 3 horizontal solutions
-  # 3 vertical solutions
-  # 2 diagonal solutions
 
 # check for draw
 # iterate over board and see if there are any 0's left
@@ -137,12 +113,7 @@ def player_turn(board, player, if_comp):
 
 # define or clear board
 board = [[0,0,0], [0,0,0], [0,0,0]] # 0 is empty slot
-# # update list of empty slots
-# empty_slots = [] # initialize list
-# for row in board:
-#   for col in row:
-#     if col == 0:
-#       empty_slots.append([row,col])
+
 # determine if there is 1 player or 2 players
 num_of_players = input("Please indicate how many players there are (1 or 2):")
 
@@ -157,6 +128,8 @@ while(running == True):
   print_board(board)
   # check for player 1 win
   if check_win(1, board):
+    print("Player 1 wins")
+    print_board(board)
     running = False
   else:
     # check if player 2 is person or computer
@@ -166,8 +139,17 @@ while(running == True):
     else:
       # player 2 turn
       player_turn(board, 2, False)
-    # check for player 2 win
-    running != check_win(2, board)
+
+  # check for player 2 win
+  if check_win(2, board):
+    print("Player 2 wins")
+    print_board(board)
+    running = False
+  
   # check for draw
-  running != check_draw(board)
+  if check_draw(board):
+    print("Tie game.")
+    print_board(board)
+    running = False
+
     
