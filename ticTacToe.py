@@ -25,8 +25,8 @@ def check_win(player, board):
       if board[row][col] != player:
         win = False
         break
-      if win:
-        return win
+  if win:
+    return win
 
   # check vertical
   for row in range(n):
@@ -35,8 +35,8 @@ def check_win(player, board):
       if board[col][row] != player:
         win = False
         break
-      if win:
-        return win
+  if win:
+    return win
 
   # check diagonals
 
