@@ -5,31 +5,69 @@
 import random
 
 # GAMEPLAY FUNCTIONS
-# player turn, input player, no output, updates board
-def player_turn(board, player, if_comp):
-  active_turn = True
-
-  while(active_turn == True):
-    if not if_comp:
-      # ask player to enter row and col values
-      player_row = int(input("Select a slot row (0-3):"))
-      player_col = int(input("Select a slot column (0-3):"))
-    else:
-      # generate random row and col
-      player_row = random.randint(0, 3)
-      player_col = random.randint(0, 3)
-    
-    if check_open_slot(player_row, player_col):
-      update_board(board, player, player_row, player_col)
-      active_turn = False
 
 # check for open slot
 def check_open_slot(board, player_row, player_col):
   return True if board[player_row][player_col] == 0 else False
 
 # check for win
+# return wins are important because they stop the execution 
+# of the rest of the function if there is a win
 def check_win(player, board):
-  return True if random.randint(0, 2) == 1 else False
+
+  n = len(board)
+  win = None
+
+  # check horizontal
+  for row in range(n):
+    win = True # this is keeping info from previous loop through where it didn't break
+    for col in range(n):
+      if board[row][col] != player:
+        win = False
+        break
+      if win:
+        return win
+
+  # check vertical
+  for row in range(n):
+    win = True
+    for col in range(n):
+      if board[col][row] != player:
+        win = False
+        break
+      if win:
+        return win
+
+  # check diagonal
+
+  # diagonal across and down
+  win = True
+  for i in range(n):
+    if board[i][i] != player:
+      win = False
+
+  if win:
+    return win
+
+  # diagonal across and up
+  win = True
+  for i in range(n):
+    if board[i][n - 1 - i] != player:
+      win = False
+
+  if win:
+    return win
+    
+  return False
+
+  # same come below as a check draw?
+  # for row in board:
+  #   for slot in row:
+  #     if item == 0:
+  #       return False
+
+  # return True
+
   # iterate through rows and determine if all values are the same and not 0
   # this is not ideal ripp
   # for row in board:
@@ -77,6 +115,24 @@ def print_board(board):
       print(col, end=" ")
     print()
 
+# player turn, input player, no output, updates board
+def player_turn(board, player, if_comp):
+  active_turn = True
+
+  while(active_turn == True):
+    if not if_comp:
+      # ask player to enter row and col values
+      player_row = int(input("Select a slot row (0-2):"))
+      player_col = int(input("Select a slot column (0-2):"))
+    else:
+      # generate random row and col
+      player_row = random.randint(0, 3)
+      player_col = random.randint(0, 3)
+    
+    if check_open_slot(board, player_row, player_col):
+      update_board(board, player, player_row, player_col)
+      active_turn = False
+
 # GAMEPLAY
 
 # define or clear board
@@ -97,7 +153,8 @@ running = True
 while(running == True):
   print_board(board)
   # player 1 turn
-  player_turn(1, False)
+  player_turn(board, 1, False)
+  print_board(board)
   # check for player 1 win
   if check_win(1, board):
     running = False
@@ -105,12 +162,12 @@ while(running == True):
     # check if player 2 is person or computer
     if num_of_players == 1:
       # generate computer turn
-      player_turn(2, True)
+      player_turn(board, 2, True)
     else:
       # player 2 turn
-      player_turn(2, False)
+      player_turn(board, 2, False)
     # check for player 2 win
     running != check_win(2, board)
   # check for draw
-    running != check_draw(board)
+  running != check_draw(board)
     
