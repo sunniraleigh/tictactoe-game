@@ -62,14 +62,6 @@ def check_win(player, board):
 
   return False
 
-  # same come below as a check draw?
-  # for row in board:
-  #   for slot in row:
-  #     if item == 0:
-  #       return False
-
-  # return True
-
 # check for draw
 # iterate over board and see if there are any 0's left
 def check_draw(board):
