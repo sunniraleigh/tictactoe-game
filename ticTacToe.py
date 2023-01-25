@@ -74,7 +74,6 @@ def check_draw(board):
 # update board
 def update_board(board, player, player_row, player_col):
   board[player_row][player_col] = player
-  # return board
 
 # print board
 def print_board(board):
