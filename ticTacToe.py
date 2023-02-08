@@ -4,6 +4,19 @@
 
 # GAMEPLAY FUNCTIONS
 
+# create a board
+def create_board(n):
+  row = []
+  board = []
+
+  for i in range(n):
+    row.append("-")
+  
+  for col in range(n):
+    board.append(row)
+
+  return board
+
 # check for open slot
 def check_open_slot(board, player_row, player_col):
   return True if board[player_row][player_col] == "-" else False
@@ -94,6 +107,8 @@ def print_board(board):
 
 # player turn, input player, no output, updates board
 def player_turn(board, player):
+  size = len(board) - 1
+
   active_turn = True
 
   print("Player", player, "turn: ")
@@ -105,13 +120,16 @@ def player_turn(board, player):
     # make sure slot coords are correctly entered - only contain 2 values
     while(slot_chosen == False):
       slot_coords = input("Enter coords of selected slot (ex: 0 2):").replace(" ", "")
-      if len(slot_coords) == 2:
-        slot_chosen = True
-      else:
+      player_row = int(slot_coords[0])
+      player_col = int(slot_coords[1])
+      if player_row > size or player_col > size:
+        print("Please enter coordinates w/ values less than or equal to", str(size))
+      elif player_row < 0 or player_col < 0:
+        print("Please enter coordinates greater than 0")
+      elif len(slot_coords) != 2:
         print("Please enter coordinates in the correct format")
-    
-    player_row = int(slot_coords[0])
-    player_col = int(slot_coords[1])
+      else:
+        slot_chosen = True
     
     if check_open_slot(board, player_row, player_col):
       update_board(board, player, player_row, player_col)
@@ -122,10 +140,16 @@ def player_turn(board, player):
 # GAMEPLAY
 
 # define or clear board
-board = [["-","-","-"], ["-","-","-"], ["-","-","-"]] # - is empty slot
+# board = [["-","-","-"], ["-","-","-"], ["-","-","-"]] # - is empty slot
+size_chosen = False
+while(size_chosen == False):
+  board_size = int(input("Choose a board between size 3 and 10"))
+  if board_size >= 3 and board_size <= 10:
+    size_chosen = True
+
+board = create_board(board_size)
 
 # run game
-print("Starting game with " + num_of_players + " players")
 running = True
 
 while(running == True):
