@@ -6,20 +6,20 @@
 
 # check for open slot
 def check_open_slot(board, player_row, player_col):
-  return True if board[player_row][player_col] == 0 else False
+  return True if board[player_row][player_col] == "-" else False
 
 # check for win
 # return wins are important because they stop the execution 
 # of the rest of the function if there is a win
 def check_win(player, board):
 
-  n = len(board)
+  size = len(board)
   win = None
 
   # check horizontal
-  for row in range(n):
+  for row in range(size):
     win = True # this is keeping info from previous loop through where it didn't break
-    for col in range(n):
+    for col in range(size):
       if board[row][col] != player:
         win = False
         break
@@ -27,9 +27,9 @@ def check_win(player, board):
     return win
 
   # check vertical
-  for row in range(n):
+  for row in range(size):
     win = True
-    for col in range(n):
+    for col in range(size):
       if board[col][row] != player:
         win = False
         break
@@ -40,7 +40,7 @@ def check_win(player, board):
 
   # diagonal across and down
   win = True
-  for i in range(n):
+  for i in range(size):
     if board[i][i] != player:
       win = False
       break
@@ -50,8 +50,8 @@ def check_win(player, board):
 
   # diagonal across and up
   win = True
-  for i in range(n):
-    if board[i][n - 1 - i] != player:
+  for i in range(size):
+    if board[i][size - 1 - i] != player:
       win = False
       break
 
@@ -65,7 +65,7 @@ def check_win(player, board):
 def check_draw(board):
   for row in board:
     for col in row:
-      if col == 0:
+      if col == "-":
         return False
   return True
 
@@ -92,28 +92,26 @@ def print_board(board):
       print(board[row][col], end=" ")
     print()
 
-  # print("  1 2 3")
-  # for row in board:
-  #   print(row, end=" ")
-  #   for col in row:
-  #     print(col, end=" ")
-  #   print()
-
 # player turn, input player, no output, updates board
-def player_turn(board, player, if_comp):
+def player_turn(board, player):
   active_turn = True
 
   print("Player", player, "turn: ")
 
   while(active_turn == True):
-    if not if_comp:
-      # ask player to enter row and col values
-      player_row = int(input("Select a slot row (0-2):"))
-      player_col = int(input("Select a slot column (0-2):"))
-    else:
-      # generate random row and col
-      player_row = random.randint(0, 3)
-      player_col = random.randint(0, 3)
+
+    # select slot
+    slot_chosen = False
+    # make sure slot coords are correctly entered - only contain 2 values
+    while(slot_chosen == False):
+      slot_coords = input("Enter coords of selected slot (ex: 0 2):").replace(" ", "")
+      if len(slot_coords) == 2:
+        slot_chosen = True
+      else:
+        print("Please enter coordinates in the correct format")
+    
+    player_row = int(slot_coords[0])
+    player_col = int(slot_coords[1])
     
     if check_open_slot(board, player_row, player_col):
       update_board(board, player, player_row, player_col)
@@ -124,10 +122,7 @@ def player_turn(board, player, if_comp):
 # GAMEPLAY
 
 # define or clear board
-board = [[0,0,0], [0,0,0], [0,0,0]] # 0 is empty slot
-
-# determine if there is 1 player or 2 players
-num_of_players = input("Please indicate how many players there are (1 or 2):")
+board = [["-","-","-"], ["-","-","-"], ["-","-","-"]] # - is empty slot
 
 # run game
 print("Starting game with " + num_of_players + " players")
@@ -135,8 +130,9 @@ running = True
 
 while(running == True):
   print_board(board)
+  
   # player 1 turn
-  player_turn(board, 1, False)
+  player_turn(board, 1)
   print_board(board)
   # check for player 1 win
   if check_win(1, board):
@@ -144,19 +140,13 @@ while(running == True):
     print_board(board)
     running = False
   else:
-    # check if player 2 is person or computer
-    if num_of_players == 1:
-      # generate computer turn
-      player_turn(board, 2, True)
-    else:
-      # player 2 turn
-      player_turn(board, 2, False)
-
-  # check for player 2 win
-  if check_win(2, board):
-    print("Player 2 wins")
-    print_board(board)
-    running = False
+    # player 2 turn
+    player_turn(board, 2)
+    # check for player 2 win
+    if check_win(2, board):
+      print("Player 2 wins")
+      print_board(board)
+      running = False
   
   # check for draw
   if check_draw(board):
