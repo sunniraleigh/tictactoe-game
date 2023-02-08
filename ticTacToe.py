@@ -6,13 +6,12 @@
 
 # create a board
 def create_board(n):
-  row = []
   board = []
 
   for i in range(n):
-    row.append("-")
-  
-  for col in range(n):
+    row = []
+    for col in range(n):
+      row.append("-")
     board.append(row)
 
   return board
