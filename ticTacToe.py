@@ -2,8 +2,6 @@
 # Written by @sunniraleigh
 # To play: run `python3 ticTacToe.py`
 
-import random
-
 # GAMEPLAY FUNCTIONS
 
 # check for open slot
@@ -77,14 +75,35 @@ def update_board(board, player, player_row, player_col):
 
 # print board
 def print_board(board):
-  for row in board:
-    for col in row:
-      print(col, end=" ")
+  
+  # get size of board (for scalability!! and assumes that a board is N x N)
+  size = len(board)
+
+  # print slot coords for cols
+  print("  ", end="")
+  for i in range(size):
+    print(i, end=" ")
+  print()
+
+  # print board and include slot coords for rows
+  for row in range(size):
+    print(row, end=" ")
+    for col in range(size):
+      print(board[row][col], end=" ")
     print()
+
+  # print("  1 2 3")
+  # for row in board:
+  #   print(row, end=" ")
+  #   for col in row:
+  #     print(col, end=" ")
+  #   print()
 
 # player turn, input player, no output, updates board
 def player_turn(board, player, if_comp):
   active_turn = True
+
+  print("Player", player, "turn: ")
 
   while(active_turn == True):
     if not if_comp:
@@ -99,6 +118,8 @@ def player_turn(board, player, if_comp):
     if check_open_slot(board, player_row, player_col):
       update_board(board, player, player_row, player_col)
       active_turn = False
+    else:
+      print("That slot is full. Choose a new one.")
 
 # GAMEPLAY
 
