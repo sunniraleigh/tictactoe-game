@@ -35,8 +35,9 @@ def check_win(player, board):
       if board[row][col] != player:
         win = False
         break
-  if win:
-    return win
+    if win:
+      print("horizontal")
+      return win
 
   # check vertical
   for row in range(size):
@@ -45,8 +46,9 @@ def check_win(player, board):
       if board[col][row] != player:
         win = False
         break
-  if win:
-    return win
+    if win:
+      print("vertical")
+      return win
 
   # check diagonals
 
@@ -58,6 +60,7 @@ def check_win(player, board):
       break
 
   if win:
+    print("across and down")
     return win
 
   # diagonal across and up
@@ -68,6 +71,7 @@ def check_win(player, board):
       break
 
   if win:
+    print("across and up")
     return win
 
   return False
@@ -121,6 +125,7 @@ def player_turn(board, player):
       slot_coords = input("Enter coords of selected slot (ex: 0 2):").replace(" ", "")
       player_row = int(slot_coords[0])
       player_col = int(slot_coords[1])
+      
       if player_row > size or player_col > size:
         print("Please enter coordinates w/ values less than or equal to", str(size))
       elif player_row < 0 or player_col < 0:
@@ -142,11 +147,14 @@ def player_turn(board, player):
 # board = [["-","-","-"], ["-","-","-"], ["-","-","-"]] # - is empty slot
 size_chosen = False
 while(size_chosen == False):
-  board_size = int(input("Choose a board between size 3 and 10"))
+  board_size = int(input("Choose a board between size 3 and 10: "))
   if board_size >= 3 and board_size <= 10:
     size_chosen = True
 
 board = create_board(board_size)
+
+# Choose singleplayer or multiplayer
+player_count = int(input("How many players?: "))
 
 # run game
 running = True
@@ -155,7 +163,7 @@ while(running == True):
   print_board(board)
   
   # player 1 turn
-  player_turn(board, 1)
+  player_turn(board, 1, False)
   print_board(board)
   # check for player 1 win
   if check_win(1, board):
@@ -163,13 +171,19 @@ while(running == True):
     print_board(board)
     running = False
   else:
-    # player 2 turn
-    player_turn(board, 2)
+    # if multiplayer
+    if player_count == 2:
+      # player 2 turn if not computer
+      player_turn(board, 2, False)
+    else:
+      # computer turn
+      player_turn(board, 2, True)
     # check for player 2 win
     if check_win(2, board):
       print("Player 2 wins")
       print_board(board)
       running = False
+    
   
   # check for draw
   if check_draw(board):
